@@ -9,7 +9,6 @@ import { Link } from '@inertiajs/vue3';
 
 const showingNavigationDropdown = ref(false);
 </script>
-
 <template>
     <div>
         <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
@@ -37,7 +36,7 @@ const showingNavigationDropdown = ref(false);
                                     :href="route('dashboard')"
                                     :active="route().current('dashboard')"
                                 >
-                                    Dashboard
+                                    Головна
                                 </NavLink>
                             </div>
                         </div>
@@ -74,14 +73,14 @@ const showingNavigationDropdown = ref(false);
                                         <DropdownLink
                                             :href="route('profile.edit')"
                                         >
-                                            Profile
+                                            Профіль
                                         </DropdownLink>
                                         <DropdownLink
                                             :href="route('logout')"
                                             method="post"
                                             as="button"
                                         >
-                                            Log Out
+                                            Вихід
                                         </DropdownLink>
                                     </template>
                                 </Dropdown>
@@ -144,7 +143,7 @@ const showingNavigationDropdown = ref(false);
                             :href="route('dashboard')"
                             :active="route().current('dashboard')"
                         >
-                            Dashboard
+                            Адмінка
                         </ResponsiveNavLink>
                     </div>
 
@@ -165,14 +164,14 @@ const showingNavigationDropdown = ref(false);
 
                         <div class="mt-3 space-y-1">
                             <ResponsiveNavLink :href="route('profile.edit')">
-                                Profile
+                                Профіль
                             </ResponsiveNavLink>
                             <ResponsiveNavLink
                                 :href="route('logout')"
                                 method="post"
                                 as="button"
                             >
-                                Log Out
+                                Вихід
                             </ResponsiveNavLink>
                         </div>
                     </div>

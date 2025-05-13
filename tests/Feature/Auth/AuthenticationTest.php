@@ -9,15 +9,37 @@ test('login screen can be rendered', function () {
 });
 
 test('users can authenticate using the login screen', function () {
-    $user = User::factory()->create();
+    $user = User::factory()->create([
+        'is_admin' => 1,
+    ]);
 
-    $response = $this->post('/login', [
+    $this->post('/login', [
         'email' => $user->email,
         'password' => 'password',
     ]);
 
     $this->assertAuthenticated();
-    $response->assertRedirect(route('dashboard', absolute: false));
+
+    $response = $this->get('/dashboard');
+
+    $response->assertOk();
+});
+
+test('non-admin users cannot access dashboard', function () {
+    $user = User::factory()->create([
+        'is_admin' => 0,
+    ]);
+
+    $this->post('/login', [
+        'email' => $user->email,
+        'password' => 'password',
+    ]);
+
+    $this->assertAuthenticated();
+
+    $response = $this->get('/dashboard');
+
+    $response->assertNotFound();
 });
 
 test('users can not authenticate with invalid password', function () {
