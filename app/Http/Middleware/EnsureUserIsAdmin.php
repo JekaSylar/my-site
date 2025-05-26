@@ -18,6 +18,6 @@ class EnsureUserIsAdmin
         if(auth()->check() && auth()->user()->is_admin) {
             return $next($request);
         }
-        abort(404);
+        abort(403);
     }
 }

@@ -38,6 +38,15 @@ const showingNavigationDropdown = ref(false);
                                 >
                                     Головна
                                 </NavLink>
+
+                                <NavLink
+                                    :href="route('users.index')"
+                                    :active="route().current('users.index')"
+                                >
+                                    Користувачі
+                                </NavLink>
+
+
                             </div>
                         </div>
 
