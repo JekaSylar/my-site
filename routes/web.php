@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -13,14 +14,24 @@ Route::get('/', function () {
         'phpVersion' => PHP_VERSION,
     ]);
 });
+//Admin
+Route::prefix('dashboard')->middleware(['auth', 'is_admin'])->group(function () {
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified', 'is_admin'])->name('dashboard');
+    Route::get('/', function () {
+        return Inertia::render('Admin/Dashboard');
+    })->name('dashboard');
 
-Route::middleware(['auth', 'is_admin'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-});
+
+    Route::resource('users', UserController::class)->except(['show']);
+    Route::post('users/{user}/change-email-verified', [UserController::class, 'change_email_verified'])->name('users.change.email.verified');
+    Route::post('users/{user}/change-block', [UserController::class, 'change_block'])->name('users.change.block');
+    Route::get('users/search/{search}', [UserController::class, 'search'])->name('users.search');
+
+})->middleware(['auth', 'is_admin']);
+//Admin
+
+
 
 require __DIR__.'/auth.php';
