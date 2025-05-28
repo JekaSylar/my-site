@@ -45,93 +45,80 @@ const submit = () => {
 }
 </script>
 
+
 <template>
-    <Head :title="title"/>
+    <Head :title="title" />
     <AuthenticatedLayout>
         <template #header>
-            <h2
-                class="text-xl font-semibold leading-tight text-gray-800 dark:text-gray-200"
-            >
+            <h2 class="text-2xl font-bold text-gray-800 dark:text-white">
                 {{ title }}
             </h2>
         </template>
-        <div class="py-12">
-            <div
-                class="mx-auto max-w-7xl  sm:px-6 lg:px-8 flex justify-center  flex-col gap-10 items-stretch h-full md:flex-row">
-                <div class="bg-white p-4 shadow sm:rounded-lg sm:p-8 w-lg ">
 
-                    <form class="flex flex-col gap-6" @submit.prevent="submit">
-                        <div class="w-full">
-                            <InputLabel for="name" value="Ім'я"/>
+        <div class="py-10 px-4 md:px-6 lg:px-8 max-w-3xl mx-auto">
+            <div class="bg-white dark:bg-gray-900 shadow-lg rounded-xl p-8 border border-gray-200 dark:border-gray-700">
+                <h3 class="text-xl font-semibold text-gray-700 dark:text-white mb-6">
+                    Зміна даних користувача
+                </h3>
 
+                <form class="grid gap-6" @submit.prevent="submit">
+                    <!-- Name -->
+                    <div>
+                        <InputLabel for="name" value="Ім'я" />
+                        <TextInput
+                            id="name"
+                            type="text"
+                            class="mt-2 w-full"
+                            v-model="form.name"
+                            required
+                            autofocus
+                            autocomplete="name"
+                        />
+                        <InputError class="mt-1" :message="form.errors.name" />
+                    </div>
+
+                    <!-- Email -->
+                    <div>
+                        <InputLabel for="email" value="Email" />
+                        <TextInput
+                            id="email"
+                            type="email"
+                            class="mt-2 w-full"
+                            v-model="form.email"
+                            required
+                            autocomplete="email"
+                        />
+                        <InputError class="mt-1" :message="form.errors.email" />
+                    </div>
+
+                    <!-- Password (optional) -->
+                    <div>
+                        <InputLabel for="password" value="Новий пароль (за бажанням)" />
+                        <div class="flex gap-3 items-start mt-2">
                             <TextInput
-                                id="name"
+                                id="password"
                                 type="text"
-                                class="mt-1 block w-full"
-                                v-model="form.name"
-                                required
-                                autofocus
-                                autocomplete="name"
+                                class="w-full"
+                                v-model="form.password"
+                                autocomplete="new-password"
                             />
-
-                            <InputError class="mt-2" :message="form.errors.name"/>
+                            <GeneratePassword
+                                @generated="generatedPassword"
+                                class="shrink-0 mt-1"
+                            />
                         </div>
-                        <div class="w-full">
-                            <InputLabel for="email" value="Email"/>
-                            <div class="flex flex-row gap-2">
-                                <TextInput
-                                    id="email"
-                                    type="email"
-                                    class="mt-1 block w-full"
-                                    v-model="form.email"
-                                    required
-                                    autocomplete="email"
-                                />
+                        <InputError class="mt-1" :message="form.errors.password" />
+                    </div>
 
-                            </div>
-                            <InputError class="mt-2" :message="form.errors.email"/>
-                        </div>
-                        <div class="flex flex-row gap-2">
-
-
-                        </div>
-                        <div class="w-full">
-                            <InputLabel for="password" value="Пароль"/>
-                            <div class="flex flex-row gap-2">
-                                <TextInput
-                                    id="password"
-                                    type="text"
-                                    class="mt-1 block w-full"
-                                    v-model="form.password"
-                                    autocomplete="password"
-                                />
-                                <GeneratePassword @generated="generatedPassword"/>
-                            </div>
-                            <InputError class="mt-2" :message="form.errors.password"/>
-
-                        </div>
-
-
-                        <div class="flex justify-end">
-                            <PrimaryButton :disabled="form.processing">
-                                Змінити
-                            </PrimaryButton>
-                            <Transition
-                                enter-active-class="transition ease-in-out"
-                                enter-from-class="opacity-0"
-                                leave-active-class="transition ease-in-out"
-                                leave-to-class="opacity-0"
-                            >
-                            </Transition>
-                        </div>
-                    </form>
-
-                </div>
+                    <!-- Submit -->
+                    <div class="flex justify-end">
+                        <PrimaryButton :disabled="form.processing">
+                            Змінити
+                        </PrimaryButton>
+                    </div>
+                </form>
             </div>
         </div>
     </AuthenticatedLayout>
 </template>
 
-<style scoped>
-
-</style>

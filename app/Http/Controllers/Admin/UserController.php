@@ -71,7 +71,7 @@ class UserController extends Controller
      */
     public function update(UpdateUserRequest $request, User $user)
     {
-        $data = $request->all();
+        $data = $request->validated();
         $user->update(Arr::except($data, ['password']));
 
         return to_route('users.index');

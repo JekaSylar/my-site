@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
@@ -23,11 +24,14 @@ Route::prefix('dashboard')->middleware(['auth', 'is_admin'])->group(function () 
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-
+    //Users
     Route::resource('users', UserController::class)->except(['show']);
     Route::post('users/{user}/change-email-verified', [UserController::class, 'change_email_verified'])->name('users.change.email.verified');
     Route::post('users/{user}/change-block', [UserController::class, 'change_block'])->name('users.change.block');
     Route::get('users/search/{search}', [UserController::class, 'search'])->name('users.search');
+    //Categories
+    Route::resource('category', CategoryController::class)->except(['show']);
+    Route::get('category/search/{search}', [CategoryController::class, 'search'])->name('category.search');
 
 })->middleware(['auth', 'is_admin']);
 //Admin
