@@ -40,6 +40,15 @@ const showingNavigationDropdown = ref(false);
                                 </NavLink>
 
                                 <NavLink
+                                    :href="route('category.index')"
+                                    :active="route().current('category.index')"
+                                >
+                                    Категорії
+                                </NavLink>
+
+
+
+                                <NavLink
                                     :href="route('users.index')"
                                     :active="route().current('users.index')"
                                 >
@@ -153,6 +162,18 @@ const showingNavigationDropdown = ref(false);
                             :active="route().current('dashboard')"
                         >
                             Адмінка
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink
+                            :href="route('category.index')"
+                            :active="route().current('category.index')"
+                        >
+                            Категорії
+                        </ResponsiveNavLink>
+                        <ResponsiveNavLink
+                            :href="route('users.index')"
+                            :active="route().current('users.index')"
+                        >
+                            Користувачі
                         </ResponsiveNavLink>
                     </div>
 

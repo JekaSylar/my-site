@@ -28,49 +28,65 @@ const handlerRemove = (user) => {
 </script>
 
 <template>
-    <div class="overflow-x-auto" v-if="users.data.length">
-        <table class="min-w-full divide-y divide-gray-200 text-sm">
-            <thead class="bg-gray-50">
-            <tr>
-                <th class="px-4 py-2 text-left text-gray-900 font-semibold border border-gray-300">ID</th>
-                <th class="px-4 py-2 text-left text-gray-900 font-semibold border border-gray-300">Ім'я</th>
-                <th class="px-4 py-2 text-left text-gray-900 font-semibold border border-gray-300">Email</th>
-                <th class="px-4 py-2 text-left text-gray-900 font-semibold border border-gray-300">Дата реєстрації</th>
-                <th class="px-4 py-2 text-left text-gray-900 font-semibold border border-gray-300">Блокування</th>
-                <th class="px-4 py-2 text-left text-gray-900 font-semibold border border-gray-300">Дії</th>
-            </tr>
-            </thead>
-            <tbody class="bg-white divide-y divide-gray-200">
-            <tr v-for="user in users.data" :key="user.id" :class="{ 'bg-rose-300': user.blocked_until }">
-                <td class="px-4 py-2 border border-gray-300 ">{{ user.id }}</td>
-                <td class="px-4 py-2 border border-gray-300">{{ user.name }}</td>
-                <td class="px-4 py-2 border border-gray-300">
-                   <div class="flex flex-row justify-between">
-                       {{ user.email }}
-                       <div class="flex flex-row gap-2">
-                           <GoogleBadge :is-google="user.google_id" />
-                           <EmailVerified :user="user" />
-                       </div>
-                   </div>
-                </td>
-                <td class="px-4 py-2 border border-gray-300">{{ user.register_date }}</td>
-                <td class="px-4 py-2 border border-gray-300">
-                    <BlockUser :user="user" />
+    <div class="mt-8">
 
-                </td>
-                <td class="px-4 py-2 border border-gray-300">
-                    <div class="flex flex-row items-center">
-                        <EditLink :href="route('users.edit', user)" />
-                        <Delete :text="`Видалиться користувач ${user.name}`" @remove="handlerRemove(user)" />
-                    </div>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-        <Pagination v-if="users" :links="users.meta.links" />
+        <div class="overflow-x-auto rounded-xl border border-gray-200 shadow-sm">
+            <table class="min-w-full text-sm text-gray-700 bg-white">
+                <thead class="bg-gray-100 text-xs uppercase text-gray-600">
+                <tr>
+                    <th class="px-6 py-4 text-left">№</th>
+                    <th class="px-6 py-4 text-left">Ім'я</th>
+                    <th class="px-6 py-4 text-left">Email</th>
+                    <th class="px-6 py-4 text-left">Дата реєстрації</th>
+                    <th class="px-6 py-4 text-left">Блокування</th>
+                    <th class="px-6 py-4 text-left">Дії</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr
+                    v-for="(user, index) in users.data"
+                    :key="user.id"
+                    :class="[
+                            'border-t border-gray-100 hover:bg-gray-50 transition',
+                            user.blocked_until ? 'bg-red-100' : ''
+                        ]"
+                >
+                    <td class="px-6 py-4 font-medium text-gray-800">
+                        {{ users.meta.from + index }}
+                    </td>
+                    <td class="px-6 py-4">{{ user.name }}</td>
+                    <td class="px-6 py-4">
+                        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 sm:gap-2">
+                            <span>{{ user.email }}</span>
+                            <div class="flex gap-2">
+                                <GoogleBadge :is-google="user.google_id" />
+                                <EmailVerified :user="user" />
+                            </div>
+                        </div>
+                    </td>
+                    <td class="px-6 py-4 text-gray-600">{{ user.register_date }}</td>
+                    <td class="px-6 py-4">
+                        <BlockUser :user="user" />
+                    </td>
+                    <td class="px-6 py-4">
+                        <div class="flex gap-2">
+                            <EditLink :href="route('users.edit', user)" />
+                            <Delete
+                                :text="`Видалитися користувач ${user.name}`"
+                                @remove="handlerRemove(user)"
+                            />
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+
+        <div class="mt-4">
+            <Pagination v-if="users" :links="users.meta.links" />
+        </div>
     </div>
 </template>
 
-<style scoped>
 
-</style>
